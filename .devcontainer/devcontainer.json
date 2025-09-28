@@ -1,0 +1,55 @@
+{
+  "name": "kubernetes2-devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker": "latest",
+    // Common-utils Feature applied to base:ubuntu-24.04 already, augmenting
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true
+    },
+    // Python Feature can be used to add pipx packages
+    "ghcr.io/devcontainers/features/python:1": {
+      "installTools": true,
+      "toolsToInstall": "vale"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "chrischinchilla.vale-vscode",
+        "codecontemplator.kubeseal",
+        "editorconfig.editorconfig",
+        "github.copilot-chat",
+        "github.copilot",
+        "github.vscode-github-actions",
+        "gruntfuggly.todo-tree",
+        "ms-azuretools.vscode-docker",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "ms-vscode-remote.remote-containers",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "redhat.vscode-yaml",
+        "technosophos.vscode-helm",
+        "vscode-icons-team.vscode-icons",
+        "yzhang.markdown-all-in-one"
+      ],
+      "settings": {
+        "editor.rulers": [
+          80,
+          160
+        ],
+        "workbench.iconTheme": "vscode-icons"
+      }
+    }
+  },
+  "postCreateCommand": "chmod +x ${PROJECT_HOME}/.devcontainer/postCreateCommand.sh && ${PROJECT_HOME}/.devcontainer/postCreateCommand.sh",
+  "remoteEnv": {
+    "HOST_HOME": "${localEnv:HOME}",
+    "PKG_MGR": "apt",
+    "PROJECT_HOME": "${containerWorkspaceFolder}",
+    "REMOTE_USER": "vscode"
+  },
+  "mounts": [
+    // "source=${localEnv:HOME},target=/home/vscode/host-home,type=bind,readonly",
+    "source=${localEnv:HOME},target=${localEnv:HOME},type=bind,readonly"
+  ]
+}

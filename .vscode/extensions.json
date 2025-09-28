@@ -1,0 +1,19 @@
+{
+  "recommendations": [
+    "chrischinchilla.vale-vscode",
+    "codecontemplator.kubeseal",
+    "editorconfig.editorconfig",
+    "github.copilot-chat",
+    "github.copilot",
+    "github.vscode-github-actions",
+    "gruntfuggly.todo-tree",
+    "ms-azuretools.vscode-docker",
+    "ms-kubernetes-tools.vscode-kubernetes-tools",
+    "ms-vscode-remote.remote-containers",
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "redhat.vscode-yaml",
+    "technosophos.vscode-helm",
+    "vscode-icons-team.vscode-icons",
+    "yzhang.markdown-all-in-one"
+  ]
+}
