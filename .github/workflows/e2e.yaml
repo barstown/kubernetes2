@@ -2,9 +2,9 @@ name: e2e
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches:
-      - main
+  # pull_request:
+  #   branches:
+  #     - main
     # paths-ignore:
     #   - ".devcontainer/*"
     #   - ".editorconfig"
@@ -18,9 +18,9 @@ on:
     #   - "LICENSE"
     #   - "README.md"
     #   - "renovate.json"
-  # push:
-  #   branches: [ '*' ]
-  #   tags-ignore: [ '*' ]
+  push:
+    branches: [ '*' ]
+    tags-ignore: [ '*' ]
 
 jobs:
   kubernetes:
