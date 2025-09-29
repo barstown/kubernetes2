@@ -6,3 +6,9 @@ creation_rules:
       age1fvg58j3jk594pujqq3ngl6kqlfw7zam4mfs94cn3rag2zcfgk9sqzf833r
     # encrypted_regex: '^(foo|key)$'
     # encrypted_suffix: 'enc'
+  - path_regex: ^clusters/[^/]+/talosconfig$
+    age: >-
+      age1fvg58j3jk594pujqq3ngl6kqlfw7zam4mfs94cn3rag2zcfgk9sqzf833r
+  - path_regex: ^clusters/[^/]+/secrets\.yaml$
+    age: >-
+      age1fvg58j3jk594pujqq3ngl6kqlfw7zam4mfs94cn3rag2zcfgk9sqzf833r
