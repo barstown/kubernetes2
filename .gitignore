@@ -1,3 +1,5 @@
 .ansible
 .decrypted~*
 bin/
+secrets.yaml
+talosconfig
