@@ -46,10 +46,11 @@
     "HOST_HOME": "${localEnv:HOME}",
     "PKG_MGR": "apt",
     "PROJECT_HOME": "${containerWorkspaceFolder}",
-    "REMOTE_USER": "vscode"
+    "REMOTE_USER": "vscode",
+    "SSH_AUTH_SOCK": "/ssh-agent"
   },
   "mounts": [
-    // "source=${localEnv:HOME},target=/home/vscode/host-home,type=bind,readonly",
+    "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind",
     "source=${localEnv:HOME},target=${localEnv:HOME},type=bind,readonly"
   ]
 }

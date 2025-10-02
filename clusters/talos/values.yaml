@@ -1,6 +1,6 @@
 endpoint: "https://talos.lab.barstow.xyz:6443"
 clusterDomain: cluster.local
-# floatingIP: 10.0.10.10
+floatingIP: 10.0.10.10
 image: "factory.talos.dev/metal-installer-secureboot/06bf98081ab80adce0d2e924dc3ec3e4f249bd8035933d99646e284ccb26511b:v1.11.2"
 podSubnets:
   - 10.244.0.0/16
@@ -987,7 +987,7 @@ inlineManifests:
                           set -o errexit
                           set -o pipefail
                           set -o nounset
-                          
+
                           # When running in AWS ENI mode, it's likely that 'aws-node' has
                           # had a chance to install SNAT iptables rules. These can result
                           # in dropped traffic, so we should attempt to remove them.
@@ -1003,7 +1003,7 @@ inlineManifests:
                               iptables-save | grep -E -v 'AWS-SNAT-CHAIN|AWS-CONNMARK-CHAIN' | iptables-restore
                           fi
                           echo 'Done!'
-                          
+
                 preStop:
                   exec:
                     command:
@@ -1071,7 +1071,7 @@ inlineManifests:
                 readOnly: true
               - name: tmp
                 mountPath: /tmp
-              
+
             initContainers:
             - name: config
               image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
@@ -1228,7 +1228,7 @@ inlineManifests:
             automountServiceAccountToken: true
             terminationGracePeriodSeconds: 1
             hostNetwork: true
-            
+
             affinity:
               podAntiAffinity:
                 requiredDuringSchedulingIgnoredDuringExecution:
@@ -1658,7 +1658,7 @@ inlineManifests:
                 operator: Exists
               - key: node.cilium.io/agent-not-ready
                 operator: Exists
-            
+
             volumes:
               # To read the configuration from the config map
             - name: cilium-config-path
