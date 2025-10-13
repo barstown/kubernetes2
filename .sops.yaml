@@ -1,14 +1,15 @@
 ---
 # https://github.com/getsops/sops?tab=readme-ov-file#513settings
 creation_rules:
-  - path_regex: test.yml
-    age: >-
-      age1fvg58j3jk594pujqq3ngl6kqlfw7zam4mfs94cn3rag2zcfgk9sqzf833r
-    # encrypted_regex: '^(foo|key)$'
-    # encrypted_suffix: 'enc'
   - path_regex: ^clusters/[^/]+/talosconfig$
     age: >-
-      age1fvg58j3jk594pujqq3ngl6kqlfw7zam4mfs94cn3rag2zcfgk9sqzf833r
-  - path_regex: ^clusters/[^/]+/secrets\.yaml$
+      age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
+    encrypted_regex: '^(endpoints|ca|crt|key)$'
+    # encrypted_suffix: 'enc'
+  - path_regex: ^clusters/[^/]+/secrets\.yml$
     age: >-
-      age1fvg58j3jk594pujqq3ngl6kqlfw7zam4mfs94cn3rag2zcfgk9sqzf833r
+      age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
+  - path_regex: .*.yaml
+    encrypted_regex: ^(data|stringData)$
+    age: >-
+      age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
