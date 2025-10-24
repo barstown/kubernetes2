@@ -1,7 +1,7 @@
 endpoint: "https://talos.lab.barstow.xyz:6443"
 clusterDomain: cluster.local
 floatingIP: 10.0.10.10
-image: "factory.talos.dev/metal-installer-secureboot/d14e88852c7d01149a17c3200ab4be572a3689261d5baa132522527824b5baa7:v1.11.3"
+image: "factory.talos.dev/metal-installer-secureboot/06bf98081ab80adce0d2e924dc3ec3e4f249bd8035933d99646e284ccb26511b:v1.11.3"
 podSubnets:
   - 10.244.0.0/16
 serviceSubnets:
@@ -904,7 +904,7 @@ inlineManifests:
                 type: Unconfined
             containers:
             - name: cilium-agent
-              image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
+              image: "quay.io/cilium/cilium:v1.18.3@sha256:5649db451c88d928ea585514746d50d91e6210801b300c897283ea319d68de15"
               imagePullPolicy: IfNotPresent
               command:
               - cilium-agent
@@ -1074,7 +1074,7 @@ inlineManifests:
 
             initContainers:
             - name: config
-              image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
+              image: "quay.io/cilium/cilium:v1.18.3@sha256:5649db451c88d928ea585514746d50d91e6210801b300c897283ea319d68de15"
               imagePullPolicy: IfNotPresent
               command:
               - cilium-dbg
@@ -1099,7 +1099,7 @@ inlineManifests:
                 mountPath: /tmp
               terminationMessagePolicy: FallbackToLogsOnError
             - name: apply-sysctl-overwrites
-              image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
+              image: "quay.io/cilium/cilium:v1.18.3@sha256:5649db451c88d928ea585514746d50d91e6210801b300c897283ea319d68de15"
               imagePullPolicy: IfNotPresent
               env:
               - name: BIN_PATH
@@ -1137,7 +1137,7 @@ inlineManifests:
             # from a privileged container because the mount propagation bidirectional
             # only works from privileged containers.
             - name: mount-bpf-fs
-              image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
+              image: "quay.io/cilium/cilium:v1.18.3@sha256:5649db451c88d928ea585514746d50d91e6210801b300c897283ea319d68de15"
               imagePullPolicy: IfNotPresent
               args:
               - 'mount | grep "/sys/fs/bpf type bpf" || mount -t bpf bpf /sys/fs/bpf'
@@ -1153,7 +1153,7 @@ inlineManifests:
                 mountPath: /sys/fs/bpf
                 mountPropagation: Bidirectional
             - name: clean-cilium-state
-              image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
+              image: "quay.io/cilium/cilium:v1.18.3@sha256:5649db451c88d928ea585514746d50d91e6210801b300c897283ea319d68de15"
               imagePullPolicy: IfNotPresent
               command:
               - /init-container.sh
@@ -1203,7 +1203,7 @@ inlineManifests:
                 mountPath: /var/run/cilium # wait-for-kube-proxy
             # Install the CNI binaries in an InitContainer so we don't have a writable host mount in the agent
             - name: install-cni-binaries
-              image: "quay.io/cilium/cilium:v1.18.2@sha256:858f807ea4e20e85e3ea3240a762e1f4b29f1cb5bbd0463b8aa77e7b097c0667"
+              image: "quay.io/cilium/cilium:v1.18.3@sha256:5649db451c88d928ea585514746d50d91e6210801b300c897283ea319d68de15"
               imagePullPolicy: IfNotPresent
               command:
                 - "/install-plugin.sh"
@@ -1387,7 +1387,7 @@ inlineManifests:
                 type: Unconfined
             containers:
             - name: cilium-envoy
-              image: "quay.io/cilium/cilium-envoy:v1.34.7-1757592137-1a52bb680a956879722f48c591a2ca90f7791324@sha256:7932d656b63f6f866b6732099d33355184322123cfe1182e6f05175a3bc2e0e0"
+              image: "quay.io/cilium/cilium-envoy:v1.34.10-1761014632-c360e8557eb41011dfb5210f8fb53fed6c0b3222@sha256:ca76eb4e9812d114c7f43215a742c00b8bf41200992af0d21b5561d46156fd15"
               imagePullPolicy: IfNotPresent
               command:
               - /usr/bin/cilium-envoy-starter
@@ -1569,7 +1569,7 @@ inlineManifests:
                 type: RuntimeDefault
             containers:
             - name: cilium-operator
-              image: "quay.io/cilium/operator-generic:v1.18.2@sha256:cb4e4ffc5789fd5ff6a534e3b1460623df61cba00f5ea1c7b40153b5efb81805"
+              image: "quay.io/cilium/operator-generic:v1.18.3@sha256:b5a0138e1a38e4437c5215257ff4e35373619501f4877dbaf92c89ecfad81797"
               imagePullPolicy: IfNotPresent
               command:
               - cilium-operator-generic

@@ -1,5 +1,6 @@
 .ansible
 .decrypted~*
 bin/
+kubeconfig
 secrets.yaml
 talosconfig
