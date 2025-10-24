@@ -6,7 +6,7 @@ creation_rules:
       age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
     encrypted_regex: '^(endpoints|ca|crt|key)$'
     # encrypted_suffix: 'enc'
-  - path_regex: ^clusters/[^/]+/secrets\.yml$
+  - path_regex: ^clusters/[^/]+/secrets\.yaml$
     age: >-
       age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
   - path_regex: .*.yaml
