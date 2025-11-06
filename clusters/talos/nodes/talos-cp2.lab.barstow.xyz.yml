@@ -46,7 +46,7 @@ machine:
     #    wwid: 
     #    size: 223 MB
     disk: /dev/sda
-    image: factory.talos.dev/metal-installer-secureboot/06bf98081ab80adce0d2e924dc3ec3e4f249bd8035933d99646e284ccb26511b:v1.11.3
+    image: factory.talos.dev/metal-installer-secureboot/06bf98081ab80adce0d2e924dc3ec3e4f249bd8035933d99646e284ccb26511b:v1.11.5
   files:
     - content: |
         [plugins]
