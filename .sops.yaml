@@ -9,6 +9,9 @@ creation_rules:
   - path_regex: ^clusters/[^/]+/secrets\.yaml$
     age: >-
       age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
+  - path_regex: ^clusters/[^/]+/talsecret.sops.yaml$
+    age: >-
+      age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
   - path_regex: .*.yaml
     encrypted_regex: ^(data|stringData)$
     age: >-

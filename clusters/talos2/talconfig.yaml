@@ -1,0 +1,55 @@
+---
+clusterName: talos-test
+talosVersion: v1.11.5
+kubernetesVersion: v1.34.1
+endpoint: https://10.0.10.61:6443
+allowSchedulingOnControlPlanes: true
+# clusterPodNets:
+#   - 10.244.0.0/16
+# clusterSvcNets:
+#   - 10.96.0.0/12
+nodes:
+  - hostname: talos-test-1
+    controlPlane: true
+    ipAddress: 10.0.10.61
+    installDisk: /dev/sda
+    certSANs:
+      - 10.0.10.61
+      - 127.0.0.1
+    kernelModules:
+      - name: vfio_iommu_type1
+      - name: vfio_pci
+      - name: zfs
+    machineSpec:
+      mode: metal
+      arch: amd64
+      useUKI: true
+      secureboot: true
+    nameservers:
+      - 10.0.10.22
+      - 10.0.10.20
+    networkInterfaces:
+      - interface: ens18
+        addresses:
+          - 10.0.10.61/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.10.1
+        # vip:
+        #   ip: 10.0.10.9
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+            - siderolabs/iscsi-tools
+            - siderolabs/nfsd
+            - siderolabs/qemu-guest-agent
+            - siderolabs/zfs
+            # - siderolabs/nonfree-kmod-nvidia-production
+            # - siderolabs/nvidia-container-toolkit-production
+controlPlane:
+  patches:
+    - |-
+      - op: remove
+        path: /machine/nodeLabels/node.kubernetes.io~1exclude-from-external-load-balancers

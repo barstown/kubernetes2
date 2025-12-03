@@ -1,6 +1,7 @@
 .ansible
 .decrypted~*
 bin/
+clusters/*/clusterconfig/*.yaml
 kubeconfig
 secrets.yaml
 talosconfig
