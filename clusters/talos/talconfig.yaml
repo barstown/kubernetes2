@@ -1,0 +1,131 @@
+---
+clusterName: talos
+talosVersion: v1.11.5
+kubernetesVersion: v1.34.1
+endpoint: https://10.0.10.10:6443
+allowSchedulingOnControlPlanes: false
+additionalApiServerCertSans:
+  - talos.lab.barstow.xyz
+patches:
+  - |-
+    cluster:
+      network:
+        cni:
+          name: none
+
+nodes:
+  - hostname: talos-cp1
+    controlPlane: true
+    ipAddress: 10.0.10.153
+    installDisk: /dev/sda
+    networkInterfaces:
+      - interface: ens18
+        addresses:
+          - 10.0.10.153/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.10.1
+        vip:
+          ip: 10.0.10.10
+  - hostname: talos-cp2
+    controlPlane: true
+    ipAddress: 10.0.10.102
+    installDisk: /dev/sda
+    networkInterfaces:
+      - interface: ens18
+        addresses:
+          - 10.0.10.102/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.10.1
+        vip:
+          ip: 10.0.10.10
+  - hostname: talos-cp3
+    controlPlane: true
+    ipAddress: 10.0.10.216
+    installDisk: /dev/sda
+    networkInterfaces:
+      - interface: ens18
+        addresses:
+          - 10.0.10.216/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.10.1
+        vip:
+          ip: 10.0.10.10
+  - hostname: talos-w1
+    controlPlane: false
+    ipAddress: 10.0.10.132
+    installDisk: /dev/sda
+    networkInterfaces:
+      - interface: ens18
+        addresses:
+          - 10.0.10.132/24
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.10.1
+
+controlPlane:
+  # certSANs:
+  #   - 10.0.10.10
+  #   - 10.0.10.102
+  #   - 10.0.10.153
+  #   - 10.0.10.216
+  #   - 127.0.0.1
+  #   - talos.lab.barstow.xyz
+  kernelModules:
+    - name: vfio_iommu_type1
+    - name: vfio_pci
+    - name: zfs
+  machineSpec:
+    mode: metal
+    arch: amd64
+    useUKI: true
+    secureboot: true
+  nameservers:
+    - 10.0.10.22
+    - 10.0.10.20
+  patches:
+    - |-
+     cluster:
+       proxy:
+         disabled: true
+  #   - |-
+  #     - op: remove
+  #       path: /machine/nodeLabels/node.kubernetes.io~1exclude-from-external-load-balancers
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
+          - siderolabs/nfsd
+          - siderolabs/qemu-guest-agent
+          - siderolabs/zfs
+          # - siderolabs/nonfree-kmod-nvidia-production
+          # - siderolabs/nvidia-container-toolkit-production
+
+worker:
+  kernelModules:
+    - name: vfio_iommu_type1
+    - name: vfio_pci
+    - name: zfs
+  machineSpec:
+    mode: metal
+    arch: amd64
+    useUKI: true
+    secureboot: true
+  nameservers:
+    - 10.0.10.22
+    - 10.0.10.20
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+          - siderolabs/iscsi-tools
+          - siderolabs/nfsd
+          - siderolabs/qemu-guest-agent
+          - siderolabs/zfs
+          # - siderolabs/nonfree-kmod-nvidia-production
+          # - siderolabs/nvidia-container-toolkit-production
