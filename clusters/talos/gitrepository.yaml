@@ -1,0 +1,23 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra-gitrepositories
+  namespace: flux-system
+spec:
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./infrastructure/gitrepositories
+  prune: true
+  patches:
+    - patch: |
+        - op: replace
+          path: /spec/path
+          value: ./.talos
+      target:
+        kind: Kustomization
+        name: kubernetes-secrets

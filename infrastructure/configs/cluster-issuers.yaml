@@ -5,13 +5,18 @@ metadata:
   name: letsencrypt
 spec:
   acme:
-    # Replace the email address with your own contact email
-    email: fluxcdbot@users.noreply.github.com
-    # The server is replaced in /clusters/production/infrastructure.yaml
+    # Override to match Let's Encrypt e-mail
+    email: 30529916+barstown@users.noreply.github.com
+    # The server is replaced in /clusters/talos/infrastructure.yaml
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-nginx
+      name: letsencrypt
     solvers:
-      - http01:
-          ingress:
-            class: nginx
+      - dns01:
+          cloudflare:
+            # Override to match Cloudflare account email
+            email: 30529916+barstown@users.noreply.github.com
+            apiTokenSecretRef:
+              # Managed in kubernetes-secrets repo
+              name: cloudflare-api-token-secret
+              key: api-token

@@ -6,13 +6,9 @@
 
 # Include manifest directories
 # !/apps/
-# !/clusters/
-!/infrastructure/controllers/
+!/clusters/
+!/infrastructure/
 
 # Exclude cluster specific files
-/clusters/*/clusterconfig/
-/clusters/*/secrets/.sops.yaml
-/clusters/*/secrets/sops-age.yaml
-/clusters/*/talconfig-schema.yaml
-/clusters/*/talconfig.yaml
-/clusters/*/talsecret.sops.yaml
+/clusters/*/secrets/
+/clusters/*/talhelper/
