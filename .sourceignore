@@ -3,12 +3,14 @@
 
 # Exclude all
 /*
-/clusters/*/clusterconfig/
-/clusters/*/talconfig-schema.yaml
-/clusters/*/talconfig.yaml
-/clusters/*/talsecret.sops.yaml
 
 # Include manifest directories
 # !/apps/
 # !/clusters/
 !/infrastructure/controllers/
+
+# Exclude cluster specific files
+/clusters/*/clusterconfig/
+/clusters/*/talconfig-schema.yaml
+/clusters/*/talconfig.yaml
+/clusters/*/talsecret.sops.yaml
