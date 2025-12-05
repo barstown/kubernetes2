@@ -17,7 +17,7 @@ spec:
     - patch: |
         - op: replace
           path: /spec/path
-          value: ./.talos
+          value: ./talos
       target:
         kind: Kustomization
         name: kubernetes-secrets
