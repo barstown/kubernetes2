@@ -74,6 +74,14 @@ helm upgrade --install \
     # --set socketLB.hostNamespaceOnly=true
 ```
 
+### Gateway API CRD
+
+https://gateway-api.sigs.k8s.io/guides/?h=crds#installing-gateway-api
+
+```bash
+kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/standard-install.yaml
+```
+
 ### FluxCD
 
 Application and infrastructure deployments are automated using
