@@ -1,12 +1,10 @@
----
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt
 spec:
   acme:
-    # Override to match Let's Encrypt e-mail
-    email: 30529916+barstown@users.noreply.github.com
+    email: ENC[AES256_GCM,data:2vuGZ2xacxvQCFImaJSq7g+b48k1Yy+A7uQjd0MUCEgItDv/,iv:L3C0Zviuv56v+PePmPt5QOvC5kLD+7xOSgRVcVWHHyk=,tag:M01lSKF342yEpSn7amQYhA==,type:str]
     # The server is replaced in /clusters/talos/infrastructure.yaml
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
@@ -14,9 +12,23 @@ spec:
     solvers:
       - dns01:
           cloudflare:
-            # Override to match Cloudflare account email
-            email: 30529916+barstown@users.noreply.github.com
+            email: ENC[AES256_GCM,data:XFau42zW+HbMiK8qHToLnehHM+TyTXejoA/u/mv3vtV5bw==,iv:G87CIWq/XjxQNa/sIGObm0jnh+rapK8nry3aqQJbIk4=,tag:+5Iz18qnFrH4fCMSjSho3g==,type:str]
             apiTokenSecretRef:
               # Managed in kubernetes-secrets repo
               name: cloudflare-api-token-secret
               key: api-token
+sops:
+  age:
+    - recipient: age1sfg4e25g6temu7xakcuud0m47ynn54mrgg08ucjuquptpclc0epq38w9xt
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBiN1N5SzdPdDlERjhISW9q
+        YW5iUDBjT2lFcmEvTHpIbHZ1aHY3K2hReFJJCnhUTUVPNW85eHJ5TE5Ma0ZpWEFy
+        K2c4TTVCcXhHa0RRWTdEU1p1TjZmU1EKLS0tIE1Yd0dsd2RQbFltUTkzbnZhR1Fi
+        azhCd09XUTlFeXVUQTVldTVEa2pNUzAKO7wJ60xEopKOIF7vg4ucKQjxNvHrkIrU
+        v6Vzy6yDkMYeRRmUyspPZyOXaSPv0NRRMWNOzlQUATS4oOioscTiIQ==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-12-05T23:04:07Z"
+  mac: ENC[AES256_GCM,data:S2+aqCVQGIVqNqRJu7fBgYhlZCLZZNWKEDGErd4Fy6xkSDmlpJ/hOgtveE7snZLqeH2x06+n5+/ufSTAlN9nKyJ9XwJCO8MiirRg23vVe4+Pt6RbUqJiu/5J+FMbbo5cdyQdp/6cAzgzrkj8rfNcDvtqa4xZBWSbej8nOL8NHxg=,iv:XymZW6MFjL58CWEuB3NXF1lv5hVKbKFz7EBS/40Ozno=,tag:AM1+ChmuPvD1h52E8yttrQ==,type:str]
+  encrypted_regex: ^(data|stringData|email)$
+  version: 3.11.0
