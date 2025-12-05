@@ -1,63 +1,60 @@
-# Talos
+# Talos cluster
 
 https://www.talos.dev/v1.11/introduction/getting-started
 
-This Talos cluster was initialized and is maintained using
+This Talos cluster was initialized by and is maintained using
 [Talhelper](https://github.com/budimanjojo/talhelper), a tool to manage Talos
 cluster in your GitOps repository. It's like Kustomize but for Talos manifest
 files with SOPS support natively.
 
-While you can interact with the cluster using traditional `talosctl` commands,
-it is recommended to handle upgrades and some other opterations via `talm`.
+You can interact with the cluster using traditional `talosctl` commands, or use
+`talhelper gencommand` to perform most standard `talosctl` commands with the the
+appropriate flags, nodes, and endpoint options automatically.
 
-## Talos Factory Image
+## Talos Factory image
 
-A custom Talos Factory image was generated with SecureBoot support and
-additional packages and drivers included, using the Talos Factory website:
+A customized image was generated with SecureBoot support and additional
+packages, using the Talos Factory website, for the initial VM setup. Next
+`talhelper` uses the extensions defined in the
+[talconfig.yaml](./talconfig.yaml) to generate the schematic ID for the final
+deployments automatically.
 
 [https://factory.talos.dev/](https://factory.talos.dev/)
 
-Packages and extensions added:
+Extensions added:
 
 ```yml
 customization:
     systemExtensions:
         officialExtensions:
-            - siderolabs/intel-ucode
-            - siderolabs/iscsi-tools
-            - siderolabs/nfsd
             - siderolabs/qemu-guest-agent
-            - siderolabs/zfs
-            # - siderolabs/nonfree-kmod-nvidia-production
-            # - siderolabs/nvidia-container-toolkit-production
 ```
 
-The schematic ID of this image is:
-- 4188ec499086246e62f8012f63310e1da2c8ddc9b954b93d86e303d44aaf5ed5
+## Cluster initialization
 
-## Initialization
+### Talhelper config and deployment
 
-### Using Talhelper
 ```bash
 talhelper gensecret > talsecret.sops.yaml
 # Encrypt the secret with sops: sops -e -i talsecret.sops.yaml
 # Generate talconfig.yaml https://budimanjojo.github.io/talhelper/latest/getting-started/
 talhelper genconfig
-talhelper gencommand apply --extra-flags "--insecure" # optionally append | bash at the end to automate it
-talhelper gencommand bootstrap # optionally append | bash at the end to automate it
-talhelper gencommand kubeconfig # optionally append | bash at the end to automate it
-talosctl --nodes $CONTROL_PLANE_IP --talosconfig=./talosconfig health
+talhelper gencommand apply --extra-flags "--insecure" # optionally append | bash to automate it
+talhelper gencommand bootstrap # optionally append | bash to automate it
+talhelper gencommand kubeconfig # optionally append | bash to automate it
+talhelper gencommand health # optionally append | bash to automate it
 kubectl get nodes
 ```
 
-## Helm installs
+### Helm installs
 
-Documenting Helm installs here until I get the rest of the Flux deployment set up
+Documenting Helm installs here until I get the rest of the Flux deployment set
+up
 
-### Cilium
+#### Cilium CNI
 
 ```bash
-helm install \
+helm upgrade --install \
     cilium \
     cilium/cilium \
     --version 1.18.4 \
@@ -75,4 +72,42 @@ helm install \
     --set=gatewayAPI.enableAppProtocol=true \
     # --set routingMode=native \
     # --set socketLB.hostNamespaceOnly=true
+```
+
+### FluxCD
+
+Application and infrastructure deployments are automated using
+[Flux](https://github.com/fluxcd/flux2) as an alternative to more complex
+setups.
+
+Initial configuration of Flux is completed as follows:
+
+Install:
+
+`brew install fluxcd/tap/flux`
+
+Bootstrap:
+```bash
+export GITHUB_TOKEN=<your-token>
+export GITHUB_USER=barstown
+flux bootstrap github \
+  --token-auth \
+  --owner=$GITHUB_USER \
+  --repository=kubernetes2 \
+  --branch=main \
+  --path=clusters/talos \
+  --personal
+```
+
+### Cluster maintenance
+
+Update [talconfig.yaml](./talconfig.yaml) as needed. Run `talhelper genconfig`
+to create new node config files, and then run apply/upgrade/upgrade-k8s as
+needed for ongoing maintenance.
+
+```bash
+talhelper genconfig
+talhelper gencommand apply # optionally append | bash to automate it
+talhelper gencommand upgrade # optionally append | bash to automate it
+talhelper gencommand upgrade-k8s # optionally append | bash to automate it
 ```
