@@ -5,6 +5,6 @@
 /*
 
 # Include manifest directories
-!/apps/
+# !/apps/
 !/clusters/
-!/infrastructure/
+!/infrastructure/controllers/
