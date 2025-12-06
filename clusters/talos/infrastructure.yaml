@@ -14,6 +14,35 @@ spec:
   path: ./infrastructure/controllers
   prune: true
   wait: true
+  patches:
+    - patch: |
+        - op: add
+          path: /spec/values/l2announcements/enabled
+          value: true
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |
+        - op: add
+          path: /spec/values/l2podAnnouncements/enabled
+          value: true
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |
+        - op: add
+          path: /spec/values/l2podAnnouncements/interface
+          value: ens18
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |
+        - op: add
+          path: /spec/values/externalIPs/enabled
+          value: true
+      target:
+        kind: HelmRelease
+        name: cilium
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1

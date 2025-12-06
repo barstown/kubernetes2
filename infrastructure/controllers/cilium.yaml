@@ -26,6 +26,12 @@ spec:
         namespace: kube-system
       interval: 12h
   values:
+    hubble:
+      enabled: true
+      relay:
+        enabled: true
+      ui:
+        enabled: true
     ipam:
       mode: kubernetes
     kubeProxyReplacement: true
