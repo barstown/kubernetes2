@@ -1,0 +1,33 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: cilium-lb-ippool
+  namespace: kube-system
+spec:
+  blocks:
+    - start: "x.x.x.x" # For http/s ingress
+  serviceSelector:
+    matchLabels:
+      use-cilium-lb: "true"
+
+---
+apiVersion: cilium.io/v2
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: cilium-l2-announcementpolicy
+  namespace: kube-system
+spec:
+  externalIPs: true
+  loadBalancerIPs: true
+  serviceSelector:
+    matchLabels:
+      use-cilium-lb: "true"
+  nodeSelector:
+    matchExpressions:
+      - key: node-role.kubernetes.io/control-plane
+        operator: DoesNotExist
+      # - key: announce-vip
+      #   operator: In
+      #   values:
+      #     - "true"
