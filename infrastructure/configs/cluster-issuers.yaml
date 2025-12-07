@@ -15,5 +15,5 @@ spec:
             email: geography_chemo535@dungeonmail.com
             apiTokenSecretRef:
               # Managed in kubernetes-secrets repo
-              name: cloudflare-api-token-secret
+              name: cloudflare-api-token
               key: api-token
