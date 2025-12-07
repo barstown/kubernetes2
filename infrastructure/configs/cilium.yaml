@@ -12,7 +12,7 @@ spec:
       use-cilium-lb: "true"
 
 ---
-apiVersion: cilium.io/v2
+apiVersion: cilium.io/v2alpha1
 kind: CiliumL2AnnouncementPolicy
 metadata:
   name: cilium-l2-announcementpolicy
