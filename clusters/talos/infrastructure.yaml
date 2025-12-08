@@ -66,6 +66,11 @@ spec:
         - op: replace
           path: /spec/blocks/0/start
           value: "10.0.10.8"
+        - op: add
+          path: /spec/blocks/-
+          value:
+            start: "10.0.15.100"
+            stop: "10.0.15.150"
       target:
         kind: CiliumLoadBalancerIPPool
         name: cilium-lb-ippool
