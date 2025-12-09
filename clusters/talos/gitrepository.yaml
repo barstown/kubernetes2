@@ -21,3 +21,10 @@ spec:
       target:
         kind: Kustomization
         name: kubernetes-secrets
+    - patch: |
+        - op: replace
+          path: /spec/path
+          value: ./config/crd/standard
+      target:
+        kind: Kustomization
+        name: gateway-api
