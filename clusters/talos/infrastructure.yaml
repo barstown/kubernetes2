@@ -18,21 +18,35 @@ spec:
   - patch: |-
       - op: add
         path: /spec/values/l2announcements
-        value: {enabled: true}
+        value:
+          enabled: true
     target:
       kind: HelmRelease
       name: cilium
   - patch: |-
       - op: add
         path: /spec/values/l2podAnnouncements
-        value: {enabled: true, interface: "ens18"}
+        value:
+          enabled: true
+          interface: "ens18"
+    target:
+      kind: HelmRelease
+      name: cilium
+  - patch: |-
+      - op: add
+        path: /spec/values/ingressController
+        value:
+          enabled: true
+          default: true
+          loadbalancerMode: shared
     target:
       kind: HelmRelease
       name: cilium
   - patch: |-
       - op: add
         path: /spec/values/externalIPs
-        value: {enabled: true}
+        value:
+          enabled: true
     target:
       kind: HelmRelease
       name: cilium
