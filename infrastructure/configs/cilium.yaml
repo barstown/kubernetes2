@@ -5,8 +5,8 @@ metadata:
   name: cilium-lb-ippool
   namespace: kube-system
 spec:
-  blocks:
-    - start: "x.x.x.x" # For http/s ingress
+  blocks: []
+    # - start: "x.x.x.x" # For http/s ingress
   serviceSelector:
     matchLabels:
       use-cilium-lb: "true"
