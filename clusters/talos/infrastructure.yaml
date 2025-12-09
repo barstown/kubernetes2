@@ -81,7 +81,7 @@ spec:
           registry: noop
           sources:
             - gateway-httproute
-            - gateway-tlsroute
+            # - gateway-tlsroute
             - ingress
             - service
     target:
