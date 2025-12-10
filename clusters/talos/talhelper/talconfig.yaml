@@ -64,6 +64,13 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 10.0.10.1
+        # vlans:
+        #   - vlanId: 15
+        #     addresses:
+        #       - 10.0.15.132/24
+        #     routes:
+        #       - network: 0.0.0.0/0
+        #         gateway: 10.0.15.1
 
 controlPlane:
   # certSANs:
