@@ -102,6 +102,20 @@ spec:
               image:
                 registry: docker.io/democraticcsi/democratic-csi
                 tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+          driver:
+            existingConfigSecret: freenas-api-iscsi-driver-config
+            config:
+              driver: freenas-api-iscsi
+          node:
+            driver:
+              extraEnv:
+                - name: ISCSIADM_HOST_STRATEGY
+                  value: nsenter
+                - name: ISCSIADM_HOST_PATH
+                  value: /usr/local/sbin/iscsiadm
+              iscsiDirHostPath: /var/iscsi
+              iscsiDirHostPathType: ''
+            hostPID: true
           storageClasses:
             - name: freenas-api-iscsi
               allowVolumeExpansion: true
@@ -115,10 +129,6 @@ spec:
             - name: freenas-api-iscsi
               parameters:
                 detachedSnapshots: 'true'
-          driver:
-            existingConfigSecret: freenas-api-iscsi-driver-config
-            config:
-              driver: freenas-api-iscsi
     target:
       kind: HelmRelease
       name: freenas-api-iscsi
@@ -137,6 +147,10 @@ spec:
               image:
                 registry: docker.io/democraticcsi/democratic-csi
                 tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+          driver:
+            existingConfigSecret: freenas-api-nfs-driver-config
+            config:
+              driver: freenas-api-nfs
           storageClasses:
             - name: freenas-api-nfs
               defaultClass: false
@@ -147,16 +161,13 @@ spec:
                 fsType: nfs
                 detachedVolumesFromSnapshots: 'false'
               mountOptions:
-                - noatime
                 - nfsvers=3
+                - noatime
+                - nolock
           volumeSnapshotClasses:
             - name: freenas-api-nfs
               parameters:
                 detachedSnapshots: 'true'
-          driver:
-            existingConfigSecret: freenas-api-nfs-driver-config
-            config:
-              driver: freenas-api-nfs
     target:
       kind: HelmRelease
       name: freenas-api-nfs

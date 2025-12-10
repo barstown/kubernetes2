@@ -19,6 +19,7 @@ spec:
   url: https://democratic-csi.github.io/charts
 
 ---
+# https://wazaari.dev/blog/truenas-talos-democratic-csi
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
