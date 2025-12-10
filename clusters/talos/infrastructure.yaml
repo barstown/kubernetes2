@@ -39,6 +39,9 @@ spec:
           enabled: true
           default: true
           loadbalancerMode: shared
+          service:
+            labels:
+              use-cilium-lb: "true"
     target:
       kind: HelmRelease
       name: cilium
