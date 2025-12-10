@@ -87,6 +87,79 @@ spec:
     target:
       kind: HelmRelease
       name: external-dns
+  - patch: |
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: freenas-api-iscsi
+        namespace: freenas-api-iscsi
+      spec:
+        values:
+          csiDriver:
+            name: freenas-api-iscsi
+          controller:
+            driver:
+              image:
+                registry: docker.io/democraticcsi/democratic-csi
+                tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+          storageClasses:
+            - name: freenas-api-iscsi
+              allowVolumeExpansion: true
+              defaultClass: true
+              parameters:
+                fsType: xfs
+                detachedVolumesFromSnapshots: 'false'
+              reclaimPolicy: Retain
+              volumeBindingMode: Immediate
+          volumeSnapshotClasses:
+            - name: freenas-api-iscsi
+              parameters:
+                detachedSnapshots: 'true'
+          driver:
+            existingConfigSecret: freenas-api-iscsi-driver-config
+            config:
+              driver: freenas-api-iscsi
+    target:
+      kind: HelmRelease
+      name: freenas-api-iscsi
+  - patch: |
+      apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: freenas-api-nfs
+        namespace: freenas-api-nfs
+      spec:
+        values:
+          csiDriver:
+            name: freenas-api-nfs
+          controller:
+            driver:
+              image:
+                registry: docker.io/democraticcsi/democratic-csi
+                tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+          storageClasses:
+            - name: freenas-api-nfs
+              defaultClass: false
+              reclaimPolicy: Retain
+              volumeBindingMode: Immediate
+              allowVolumeExpansion: true
+              parameters:
+                fsType: nfs
+                detachedVolumesFromSnapshots: 'false'
+              mountOptions:
+                - noatime
+                - nfsvers=3
+          volumeSnapshotClasses:
+            - name: freenas-api-nfs
+              parameters:
+                detachedSnapshots: 'true'
+          driver:
+            existingConfigSecret: freenas-api-nfs-driver-config
+            config:
+              driver: freenas-api-nfs
+    target:
+      kind: HelmRelease
+      name: freenas-api-nfs
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
