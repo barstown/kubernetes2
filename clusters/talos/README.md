@@ -46,12 +46,11 @@ talhelper gencommand health # optionally append | bash to automate it
 kubectl get nodes
 ```
 
-### Helm installs
+### Cilium CNI
 
-Documenting Helm installs here until I get the rest of the Flux deployment set
-up
-
-#### Cilium CNI
+Deploying Cilium with Helm should only be required once in order to establish a
+working CNI on the cluster. Flux will manage this going forward like other Helm
+releases.
 
 ```bash
 helm upgrade --install \
@@ -74,14 +73,6 @@ helm upgrade --install \
     # --set socketLB.hostNamespaceOnly=true
 ```
 
-### Gateway API CRD
-
-https://gateway-api.sigs.k8s.io/guides/?h=crds#installing-gateway-api
-
-```bash
-kubectl apply --server-side -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.1/standard-install.yaml
-```
-
 ### FluxCD
 
 Application and infrastructure deployments are automated using
@@ -90,7 +81,7 @@ setups.
 
 Initial configuration of Flux is completed as follows:
 
-Install:
+Workstation install:
 
 `brew install fluxcd/tap/flux`
 
@@ -99,12 +90,13 @@ Bootstrap:
 export GITHUB_TOKEN=<your-token>
 export GITHUB_USER=barstown
 flux bootstrap github \
-  --token-auth \
-  --owner=$GITHUB_USER \
-  --repository=kubernetes2 \
   --branch=main \
+  --components-extra=source-watcher \
+  --owner=$GITHUB_USER \
   --path=clusters/talos \
-  --personal
+  --personal \
+  --repository=kubernetes2 \
+  --token-auth
 ```
 
 ### Cluster maintenance
