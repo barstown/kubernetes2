@@ -94,9 +94,17 @@ controlPlane:
     - 10.0.10.20
   patches:
     - |-
-     cluster:
-       proxy:
-         disabled: true
+      cluster:
+        proxy:
+          disabled: true
+        apiServer:
+          admissionControl:
+            - name: PodSecurity
+              configuration:
+                defaults:
+                  audit: restricted
+                  enforce: restricted
+                  warn: restricted
   #   - |-
   #     - op: remove
   #       path: /machine/nodeLabels/node.kubernetes.io~1exclude-from-external-load-balancers
