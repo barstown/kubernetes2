@@ -64,6 +64,8 @@ spec:
           image:
             repository: registry.k8s.io/external-dns/external-dns
             tag: v0.20.0
+          domainFilters:
+            - k8s.barstow.xyz
           env:
             - name: EXTERNAL_DNS_PIHOLE_PASSWORD
               valueFrom:
@@ -78,7 +80,7 @@ spec:
           extraArgs:
             - --pihole-api-version=6
             - --pihole-tls-skip-verify
-          policy: upsert-only
+          policy: sync
           provider:
             name: pihole
           registry: noop
