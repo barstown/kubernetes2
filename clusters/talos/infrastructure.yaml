@@ -15,167 +15,167 @@ spec:
   prune: true
   wait: true
   patches:
-  - patch: |-
-      - op: add
-        path: /spec/values/l2announcements
-        value:
-          enabled: true
-    target:
-      kind: HelmRelease
-      name: cilium
-  - patch: |-
-      - op: add
-        path: /spec/values/l2podAnnouncements
-        value:
-          enabled: true
-          interface: "ens18"
-    target:
-      kind: HelmRelease
-      name: cilium
-  - patch: |-
-      - op: add
-        path: /spec/values/ingressController
-        value:
-          enabled: true
-          default: true
-          loadbalancerMode: shared
-          service:
-            labels:
-              use-cilium-lb: "true"
-    target:
-      kind: HelmRelease
-      name: cilium
-  - patch: |-
-      - op: add
-        path: /spec/values/externalIPs
-        value:
-          enabled: true
-    target:
-      kind: HelmRelease
-      name: cilium
-  - patch: |
-      apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      metadata:
+    - patch: |-
+        - op: add
+          path: /spec/values/l2announcements
+          value:
+            enabled: true
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |-
+        - op: add
+          path: /spec/values/l2podAnnouncements
+          value:
+            enabled: true
+            interface: "ens18"
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |-
+        - op: add
+          path: /spec/values/ingressController
+          value:
+            enabled: true
+            default: true
+            loadbalancerMode: shared
+            service:
+              labels:
+                use-cilium-lb: "true"
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |-
+        - op: add
+          path: /spec/values/externalIPs
+          value:
+            enabled: true
+      target:
+        kind: HelmRelease
+        name: cilium
+    - patch: |
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: external-dns
+          namespace: external-dns
+        spec:
+          values:
+            image:
+              repository: registry.k8s.io/external-dns/external-dns
+              tag: v0.20.0
+            domainFilters:
+              - k8s.barstow.xyz
+            env:
+              - name: EXTERNAL_DNS_PIHOLE_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: pihole-secret
+                    key: EXTERNAL_DNS_PIHOLE_PASSWORD
+              - name: EXTERNAL_DNS_PIHOLE_SERVER
+                valueFrom:
+                  secretKeyRef:
+                    name: pihole-secret
+                    key: EXTERNAL_DNS_PIHOLE_SERVER
+            extraArgs:
+              - --pihole-api-version=6
+              - --pihole-tls-skip-verify
+            policy: sync
+            provider:
+              name: pihole
+            registry: noop
+            sources:
+              - gateway-httproute
+              # - gateway-tlsroute
+              - ingress
+              - service
+      target:
+        kind: HelmRelease
         name: external-dns
-        namespace: external-dns
-      spec:
-        values:
-          image:
-            repository: registry.k8s.io/external-dns/external-dns
-            tag: v0.20.0
-          domainFilters:
-            - k8s.barstow.xyz
-          env:
-            - name: EXTERNAL_DNS_PIHOLE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: pihole-secret
-                  key: EXTERNAL_DNS_PIHOLE_PASSWORD
-            - name: EXTERNAL_DNS_PIHOLE_SERVER
-              valueFrom:
-                secretKeyRef:
-                  name: pihole-secret
-                  key: EXTERNAL_DNS_PIHOLE_SERVER
-          extraArgs:
-            - --pihole-api-version=6
-            - --pihole-tls-skip-verify
-          policy: sync
-          provider:
-            name: pihole
-          registry: noop
-          sources:
-            - gateway-httproute
-            # - gateway-tlsroute
-            - ingress
-            - service
-    target:
-      kind: HelmRelease
-      name: external-dns
-  - patch: |
-      apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      metadata:
+    - patch: |
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: freenas-api-iscsi
+          namespace: freenas-api-iscsi
+        spec:
+          values:
+            csiDriver:
+              name: freenas-api-iscsi
+            controller:
+              driver:
+                image:
+                  registry: docker.io/democraticcsi/democratic-csi
+                  tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+            driver:
+              existingConfigSecret: freenas-api-iscsi-driver-config
+              config:
+                driver: freenas-api-iscsi
+            node:
+              driver:
+                extraEnv:
+                  - name: ISCSIADM_HOST_STRATEGY
+                    value: nsenter
+                  - name: ISCSIADM_HOST_PATH
+                    value: /usr/local/sbin/iscsiadm
+                iscsiDirHostPath: /var/iscsi
+                iscsiDirHostPathType: ''
+              hostPID: true
+            storageClasses:
+              - name: freenas-api-iscsi
+                allowVolumeExpansion: true
+                defaultClass: true
+                parameters:
+                  fsType: xfs
+                  detachedVolumesFromSnapshots: 'false'
+                reclaimPolicy: Retain
+                volumeBindingMode: Immediate
+            volumeSnapshotClasses:
+              - name: freenas-api-iscsi
+                parameters:
+                  detachedSnapshots: 'true'
+      target:
+        kind: HelmRelease
         name: freenas-api-iscsi
-        namespace: freenas-api-iscsi
-      spec:
-        values:
-          csiDriver:
-            name: freenas-api-iscsi
-          controller:
+    - patch: |
+        apiVersion: helm.toolkit.fluxcd.io/v2
+        kind: HelmRelease
+        metadata:
+          name: freenas-api-nfs
+          namespace: freenas-api-nfs
+        spec:
+          values:
+            csiDriver:
+              name: freenas-api-nfs
+            controller:
+              driver:
+                image:
+                  registry: docker.io/democraticcsi/democratic-csi
+                  tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
             driver:
-              image:
-                registry: docker.io/democraticcsi/democratic-csi
-                tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
-          driver:
-            existingConfigSecret: freenas-api-iscsi-driver-config
-            config:
-              driver: freenas-api-iscsi
-          node:
-            driver:
-              extraEnv:
-                - name: ISCSIADM_HOST_STRATEGY
-                  value: nsenter
-                - name: ISCSIADM_HOST_PATH
-                  value: /usr/local/sbin/iscsiadm
-              iscsiDirHostPath: /var/iscsi
-              iscsiDirHostPathType: ''
-            hostPID: true
-          storageClasses:
-            - name: freenas-api-iscsi
-              allowVolumeExpansion: true
-              defaultClass: true
-              parameters:
-                fsType: xfs
-                detachedVolumesFromSnapshots: 'false'
-              reclaimPolicy: Retain
-              volumeBindingMode: Immediate
-          volumeSnapshotClasses:
-            - name: freenas-api-iscsi
-              parameters:
-                detachedSnapshots: 'true'
-    target:
-      kind: HelmRelease
-      name: freenas-api-iscsi
-  - patch: |
-      apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      metadata:
+              existingConfigSecret: freenas-api-nfs-driver-config
+              config:
+                driver: freenas-api-nfs
+            storageClasses:
+              - name: freenas-api-nfs
+                defaultClass: false
+                reclaimPolicy: Retain
+                volumeBindingMode: Immediate
+                allowVolumeExpansion: true
+                parameters:
+                  fsType: nfs
+                  detachedVolumesFromSnapshots: 'false'
+                mountOptions:
+                  - nfsvers=3
+                  - noatime
+                  - nolock
+            volumeSnapshotClasses:
+              - name: freenas-api-nfs
+                parameters:
+                  detachedSnapshots: 'true'
+      target:
+        kind: HelmRelease
         name: freenas-api-nfs
-        namespace: freenas-api-nfs
-      spec:
-        values:
-          csiDriver:
-            name: freenas-api-nfs
-          controller:
-            driver:
-              image:
-                registry: docker.io/democraticcsi/democratic-csi
-                tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
-          driver:
-            existingConfigSecret: freenas-api-nfs-driver-config
-            config:
-              driver: freenas-api-nfs
-          storageClasses:
-            - name: freenas-api-nfs
-              defaultClass: false
-              reclaimPolicy: Retain
-              volumeBindingMode: Immediate
-              allowVolumeExpansion: true
-              parameters:
-                fsType: nfs
-                detachedVolumesFromSnapshots: 'false'
-              mountOptions:
-                - nfsvers=3
-                - noatime
-                - nolock
-          volumeSnapshotClasses:
-            - name: freenas-api-nfs
-              parameters:
-                detachedSnapshots: 'true'
-    target:
-      kind: HelmRelease
-      name: freenas-api-nfs
 
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
