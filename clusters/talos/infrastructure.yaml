@@ -105,8 +105,8 @@ spec:
             controller:
               driver:
                 image:
-                  registry: docker.io/democraticcsi/democratic-csi
-                  tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+                  registry: ghcr.io/democratic-csi/democratic-csi
+                  tag: latest
             driver:
               existingConfigSecret: freenas-api-iscsi-driver-config
               config:
@@ -150,8 +150,8 @@ spec:
             controller:
               driver:
                 image:
-                  registry: docker.io/democraticcsi/democratic-csi
-                  tag: next # https://github.com/democratic-csi/democratic-csi/issues/479
+                  registry: ghcr.io/democratic-csi/democratic-csi
+                  tag: latest
             driver:
               existingConfigSecret: freenas-api-nfs-driver-config
               config:
