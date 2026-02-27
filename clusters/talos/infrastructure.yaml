@@ -28,7 +28,9 @@ spec:
           path: /spec/values/l2podAnnouncements
           value:
             enabled: true
-            interface: "ens18"
+            # interface: "ens18"
+            # regex pattern
+            interfacePattern: "ens18"
       target:
         kind: HelmRelease
         name: cilium
